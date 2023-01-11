@@ -2,9 +2,15 @@
 и есть пользователь Оператор, который имеет возможность выполнять или отказывать услуги
 
 python3.9 -m venv venv
+
 . venv/bin/activate или source venv/bin/activate
+
 pip3 install --upgrade pip
+
 pip3 install -r requirements.txt
+
 cd multi_center && python3 manage.py runserver
+
 python3 manage.py makemigrations && python3 manage.py migrate
+
 python3 manage.py createsuperuser
