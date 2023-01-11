@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="sidebar_left">
+  <div class="sidebar_left_title sidebar_1">
+    <button id="button_1">Услуги</button>
+  </div>
+  <div class="sidebar_left_title sidebar_2">
+    <button id="button_1">Замена паспорта</button>
+  </div>
+  <div class="sidebar_left_title sidebar_3">
+    <button id="button_1">Выдача паспорта</button>
+  </div>
+</div>
+<div class="main_rigth">
+
+
+
+  <div class="index_main active index_desc_main">
+    <h2>Информация о сайте</h2>
+    <h4>На нашем сайте вы можете заказать услуги:</h4>
+    <p>Замена паспорта</p>
+    <p>Выдача паспорта</p>
+  </div>
+  {% if user.is_user %}
+  <div class="index_main index_desc_service">
+
+    {% include 'service/includes/service_view.html' %}
+
+
+
+    
+  </div>
+  <div class="index_main index_desc_extra">
+
+    {% include 'service/includes/extra_view.html' %}
+
+
+  </div>
+</div>
+{% endif %}
+
+
+{% comment %} Проверка менеджер ли пользователь {% endcomment %}
+{% if user.is_manager %}
+{% csrf_token %}
+<div class="index_main index_desc_service">
+  <div class="index_top_main">
+    <form action="{% url 'service_url:filter_service' %}" method="get">
+
+      <div class="box_sort">
+        <div class="dropdown_sort">
+          <span class="dropdown-label">Сортировка:</span>
+        </div>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+          <li><input name="f_extra" value="А-Я" type="submit"></li>
+          <li><input name="f_-extra" value="Я-А" type="submit"></li>
+        </ul>
+      </div>
+    </form>
+    <form class="form_serch" action="{% url 'service_url:search_results' %}" method="get" name="search_results">
+      <input class="q_service" name="q_service" type="text" placeholder="Поиск...">
+
+    </form>
+  </div>
+  <ul class="ul_index_main">
+    {% for post in page_service %}
+
+    {% include 'service/includes/page_service.html' %}
+
+    {% endfor %}
+    {% include 'includes/paginator_service.html' %}
+  </ul>
+</div>
+<div class="index_main index_desc_extra">
+  <div class="index_top_main">
+    <form action="{% url 'service_url:filter_extra' %}" method="get">
+
+      <div class="box_sort">
+        <div class="dropdown_sort">
+          <span class="dropdown-label">Сортировка:</span>
+        </div>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+          <li><input name="f_extra" value="А-Я" type="submit" </li>
+          <li><input name="f_-extra" value="Я-А" type="submit" </li>
+        </ul>
+      </div>
+    </form>
+    <form class="form_serch" action="{% url 'service_url:search_results' %}" method="get" name="search_results">
+      <input class="q_service" name="q_extra" type="text" placeholder="Поиск...">
+    </form>
+  </div>
+  <ul class="ul_index_main">
+
+    {% for post in page_extra %}
+
+    {% include 'service/includes/page_extra.html' %}
+
+
+
+    {% endfor %}
+    {% include 'includes/paginator.html' %}
+
+  </ul>
+</div>
+{% endif %}
+{% endblock %}

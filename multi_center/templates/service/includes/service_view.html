@@ -1,0 +1,79 @@
+{% load thumbnail %}
+{% load static %}
+<ul class="ul_index_main">
+{% for post in customer_service %}
+
+
+<li class="li_index_main www">
+  <div class="li_left">
+    <div class="status"></span>
+      <span>Статус:</span> {{ post.review }}
+    </div>
+    <div class="author">
+      <span>Клиент:</span> {{ post.fio_user }}
+      
+    </div>
+    <div class="">
+      <span>Hомер заявления:</span> {{ post.pk }}
+    </div>
+    <ul class="dropdown">
+      <li><span>ФИО Матери:</span> {{ post.fio_mother }}</li>
+      <li><span>ФИО Отца:</span> {{ post.fio_father }}</li>
+      <li><span>Телефон:</span> {{ post.phone }}</li>
+      {% if post.date_of_birth %}
+      <li><span>Дата рождения:</span> {{ post.date_of_birth }}</li>
+      {% endif %}
+      {% if post.serial %}
+      <li><span>Серия паспорта:</span> {{ post.serial }}</li>
+      {% endif %}
+      {% if post.number %}
+      <li><span>Номер паспорта:</span> {{ post.number }}</li>
+      {% endif %}
+      {% if post.birth_certificate %}
+      <li><span>Номер сидетельства о рождении:</span> {{ post.birth_certificate }}</li>
+      {% endif %}
+      <li><span>Дата заполнения:</span> {{ post.pub_date }}</li>
+      {% if post.failure %}
+      Причина отказа:
+      <div class="status_main_failure">
+        {{ post.failure }}
+      </div>
+        {% endif %}
+      <li>{% thumbnail post.image "200x200" crop="center" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}
+      </li>
+      
+      
+    </ul>
+  </div>
+
+  <div class="li_right">
+    {% if post.review == 'Выполнено' %}
+    <img src="{% static 'img/check.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+    {% endif %}
+    {% if post.review == 'Отказано' %}
+    <img src="{% static 'img/fault.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+    {% endif %}
+    {% if post.review == 'В обработке' %}
+    <img src="{% static 'img/wait.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+    {% endif %}
+    
+    <script>
+      $("#review_no-{{ post.pk }}").click(function () {
+        $("#modal-{{ post.pk }}").addClass("show");
+      });
+    </script>
+  </div>
+
+</li>
+{% endfor %}
+</ul>
+
+
+{% if not customer_service%}
+{% include 'service/includes/add_service.html' %}
+{% elif customer_service_last.review != 'В обработке' %}
+{% include 'service/includes/add_service.html' %}
+
+{% endif %}

@@ -1,0 +1,43 @@
+{% load user_filters %}
+
+{% if user.is_authenticated %}
+  <div class="card">
+    <h5 class="card_header">Оставить заявку:</h5>
+
+      <form class="form_group_mn" enctype="multipart/form-data" method="post" action="{% url 'service_url:extra_create' %}">
+        {% csrf_token %}      
+        <div class="form_group_main">
+          {% comment %} {{ form.text|addclass:"form-control" }} {% endcomment %}
+          {% for field in form_two %} 
+                <div class="form_group">
+                  <label for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                      {% if field.field.required %}
+                        <span class="required text-danger">*</span>
+                      {% endif %}
+                  </label>
+                  {# К полю ввода добавляем атрибут class #}
+                  {{ field|addclass:'form_my' }} 
+                    {% if field.help_text %}
+                      <small 
+                         id="{{ field.id_for_label }}-help"
+                         class="form_text"
+                      >
+                        {{ field.help_text|safe }}
+                      </small>
+                    {% endif %}
+                </div>
+              {% endfor %}
+        </div>
+        
+        <div class="agreement">
+          <input type="checkbox" name="option[]" id="option-1" value="option1" checked required>
+          <label for="option-1">Согласие на обработку персональных данных</label>
+        </div>
+        <div class="btn_div">
+          <button type="submit" class="btn_main">Отправить</button>
+        </div>
+      </form>
+
+  </div>
+{% endif %}

@@ -1,0 +1,37 @@
+{% if page_extra.has_other_pages %}
+<nav aria-label="Page navigation" class="my-5">
+  <ul class="pagination">
+    {% if page_extra.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_extra.previous_page_number }}">
+          Предыдущая
+        </a>
+      </li>
+    {% endif %}
+    {% for i in page_extra.paginator.page_range %}
+        {% if page_extra.number == i %}
+          <li class="page-item active">
+            <span class="page-link">{{ i }}</span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+          </li>
+        {% endif %}
+    {% endfor %}
+    {% if page_extra.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_extra.next_page_number }}">
+          Следующая
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_extra.paginator.num_pages }}">
+          Последняя
+        </a>
+      </li>
+    {% endif %}    
+  </ul>
+</nav>
+{% endif %}

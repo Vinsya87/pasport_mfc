@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Вы вышли из системы{% endblock %}
+{% block content %}
+
+      <div class="row"> 
+          <div class="">
+              <div class="card_header">
+                Ваша заявка принята
+              </div>
+              <div class="card_body">
+                <p>Ожидайте рассмотрения вашей заявки</p>
+                <a class="index_resp" href="{% url 'service_url:service_index' %}">
+                
+                  Вернуться на главную</a>
+                </a>
+              </div> 
+              
+            </div> 
+          </div>
+      </div>
+
+{% endblock %}
